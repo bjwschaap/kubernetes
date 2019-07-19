@@ -2,6 +2,10 @@
 # Kubelet outputs only to stderr, so arrange for everything we do to go there too
 exec 1>&2
 
+# Need to remount the CNI plugins mount, because it's noexec when no disk
+# is present in the host (tmpfs)
+mount -o remount,exec /opt/cni/bin
+
 if [ -e /etc/kubelet.sh.conf ] ; then
     . /etc/kubelet.sh.conf
 fi
@@ -79,7 +83,18 @@ else
         "enforceNodeAllocatable": [],
         "kubeReservedCgroup": "podruntime",
         "systemReservedCgroup": "systemreserved",
-        "cgroupRoot": "kubepods"
+        "cgroupRoot": "kubepods",
+        "authentication": {
+            "x509": {
+                "clientCAFile": "/etc/kubernetes/pki/ca.crt"
+            },
+            "anonymous": {
+                "enabled": true
+            }
+        },
+        "authorization": {
+            "mode": "AlwaysAllow"
+        }
     }
 EOF
 fi
@@ -98,9 +113,7 @@ exec kubelet \
           --config=/run/config/kubelet-config.json \
           --kubeconfig=/etc/kubernetes/kubelet.conf \
           --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf \
-          --allow-privileged=true \
           --network-plugin=cni \
           --cni-conf-dir=/etc/cni/net.d \
           --cni-bin-dir=/opt/cni/bin \
-          --cadvisor-port=0 \
           $KUBELET_ARGS $@

@@ -1,11 +1,11 @@
-FROM linuxkit/alpine:1b05307ae8152e3d38f79e297b0632697a30c65c AS build
+FROM linuxkit/alpine:08c8d8aa3638d035e18499a74faf50eedb8d6cf6-amd64 AS build
 
 # When changing kubernetes_version remember to also update:
 # - scripts/mk-image-cache-lst and run `make refresh-image-caches` from top-level
 # - pkg/e2e-test/Dockerfile
-ENV kubernetes_version v1.10.3
-ENV cni_version        v0.7.1
-ENV critools_version   v1.0.0-alpha.0
+ENV kubernetes_version v1.14.4
+ENV cni_version        v0.8.1
+ENV critools_version   v1.15.0
 
 RUN apk add -U --no-cache \
   bash \
@@ -19,6 +19,7 @@ RUN apk add -U --no-cache \
   linux-headers \
   make \
   rsync \
+  py-prettytable \
   && true
 
 ENV GOPATH=/go PATH=$PATH:/go/bin
@@ -54,7 +55,7 @@ RUN set -e;  \
         git fetch origin "CNI_BRANCH"; \
     fi; \
     git checkout -q $CNI_COMMIT
-RUN ./build.sh
+RUN ./build_linux.sh
 
 ### critools
 
@@ -94,6 +95,12 @@ RUN apk add --no-cache --initdb -p /out \
     socat \
     util-linux \
     nfs-utils \
+    ceph-common \
+    rbd-nbd \
+    py-prettytable \
+    e2fsprogs \
+    xfsprogs \
+    btrfs-progs \
     && true
 
 RUN cp $GOPATH/src/github.com/kubernetes/kubernetes/_output/bin/kubelet /out/usr/bin/kubelet
@@ -116,4 +123,5 @@ FROM scratch
 WORKDIR /
 ENTRYPOINT ["/usr/bin/kubelet.sh"]
 COPY --from=build /out /
+COPY --from=docker:18.03.0-ce /usr/local/bin/docker /usr/local/bin/docker
 ENV KUBECONFIG "/etc/kubernetes/admin.conf"

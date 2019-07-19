@@ -1,0 +1,22 @@
+org: linuxkit
+image: eudev
+network: true
+arches:
+  - amd64
+config:
+  binds:
+  - /dev:/dev
+  - /run:/run:rshared,rbind
+  - /var:/var:rshared,rbind
+  capabilities:
+  - all
+  rootfsPropagation: shared
+  pid: host
+  runtime:
+    mkdir:
+    - /run/udev
+    mounts:
+    - type: bind
+      source: /run/udev
+      destination: /run/udev
+      options: ["rw","bind"]

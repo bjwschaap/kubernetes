@@ -36,6 +36,7 @@ config:
     - /var/lib/cni/bin
     - /var/lib/kubelet-plugins
     - /var/lib/nfs/statd/sm
+    - /run/udev
     mounts:
     - type: bind
       source: /var/lib/cni/bin
@@ -44,4 +45,8 @@ config:
     - type: bind
       source: /var/lib/cni/conf
       destination: /etc/cni/net.d
+      options: ["rw","bind"]
+    - type: bind
+      source: /run/udev
+      destination: /run/udev
       options: ["rw","bind"]
