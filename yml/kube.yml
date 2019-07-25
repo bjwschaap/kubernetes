@@ -32,7 +32,7 @@ services:
     image: linuxkit/rngd:v0.7
     cgroupsPath: systemreserved/rngd
   - name: eudev
-    image: linuxkit/eudev:83ba66c5e59fa5077c21d42a7ff4f620a8456b1d-dirty
+    image: linuxkit/eudev:1ca7f912b8d037a5a0bccb2c54c77eaa7fd36f8a
     cgroupsPath: systemreserved/eudev
   - name: ntpd
     image: linuxkit/openntpd:v0.7
@@ -41,12 +41,13 @@ services:
     image: linuxkit/sshd:v0.7
     cgroupsPath: systemreserved/sshd
   - name: kubelet
-    image: linuxkit/kubelet:0bc50f1bacc8a95e9d0b5e8c089cf295ca7e5bef-dirty
+    image: linuxkit/kubelet:4c3974d5ffa7de9769e5142056d453dc562481b7-dirty
     cgroupsPath: podruntime/kubelet
   - name: getty
     image: linuxkit/getty:v0.7
     env:
      - INSECURE=true
+    cgroupsPath: systemreserved/getty
 files:
   - path: etc/linuxkit.yml
     metadata: yaml

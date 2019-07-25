@@ -1,15 +1,14 @@
 KUBE_RUNTIME ?= docker
 KUBE_NETWORK ?= weave
-KUBE_VERSION ?= 1.14
+KUBE_VERSION ?= 1.15
 KUBE_NETWORK_WEAVE ?= v2.5.2
 KUBE_NETWORK_CALICO ?= v3.8
 
-# ifeq ($(shell uname -s),Darwin)
-# KUBE_FORMATS ?= iso-efi
-# else
-#KUBE_FORMATS ?= iso-bios
-# endif
-KUBE_FORMATS ?= tar-kernel-initrd
+ifeq ($(shell uname -s),Darwin)
+KUBE_FORMATS ?= iso-efi
+else
+KUBE_FORMATS ?= iso-bios
+endif
 
 KUBE_FORMAT_ARGS := $(patsubst %,-format %,$(KUBE_FORMATS))
 

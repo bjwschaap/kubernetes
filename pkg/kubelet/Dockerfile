@@ -3,7 +3,7 @@ FROM linuxkit/alpine:08c8d8aa3638d035e18499a74faf50eedb8d6cf6-amd64 AS build
 # When changing kubernetes_version remember to also update:
 # - scripts/mk-image-cache-lst and run `make refresh-image-caches` from top-level
 # - pkg/e2e-test/Dockerfile
-ENV kubernetes_version v1.14.4
+ENV kubernetes_version v1.15.1
 ENV cni_version        v0.8.1
 ENV critools_version   v1.15.0
 
@@ -123,5 +123,5 @@ FROM scratch
 WORKDIR /
 ENTRYPOINT ["/usr/bin/kubelet.sh"]
 COPY --from=build /out /
-COPY --from=docker:18.03.0-ce /usr/local/bin/docker /usr/local/bin/docker
+COPY --from=docker:18.06.3-ce /usr/local/bin/docker /usr/local/bin/docker
 ENV KUBECONFIG "/etc/kubernetes/admin.conf"

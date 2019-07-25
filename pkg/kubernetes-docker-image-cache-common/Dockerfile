@@ -11,7 +11,7 @@ RUN rm -rf /out/etc/apk /out/lib/apk /out/var/cache
 FROM scratch
 WORKDIR /
 COPY --from=build /out /
-COPY --from=docker:18.03.0-ce /usr/local/bin/docker /usr/local/bin/docker
+COPY --from=docker:18.06.3-ce /usr/local/bin/docker /usr/local/bin/docker
 COPY dl/*.tar /images/
 ENTRYPOINT [ "/bin/sh", "-c" ]
 CMD [ "sleep 10; for image in /images/*.tar ; do docker image load -i $image && rm -f $image ; done" ]

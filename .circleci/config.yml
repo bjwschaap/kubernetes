@@ -13,7 +13,7 @@ linuxkit_pkg_build: &linuxkit_pkg_build
         at: /workspace
     - checkout
     - setup_remote_docker:
-        version: 17.06.1-ce
+        version: 18.06.0-ce
     - run:
         name: Docker version
         command: |
@@ -47,7 +47,7 @@ image_build: &image_build
         at: /workspace
     - checkout
     - setup_remote_docker:
-        version: 17.06.1-ce
+        version: 18.06.0-ce
     - run:
         name: Importing packages from workspace
         command: |
@@ -102,13 +102,13 @@ jobs:
       - run:
           name: Fetch binaries
           command: |
-            curl -fsSL -o /tmp/docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-18.03.0-ce.tgz
+            curl -fsSL -o /tmp/docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-18.06.0-ce.tgz
             tar xfO /tmp/docker.tgz docker/docker > /workspace/bin/docker
             # To update find the most recent successful build at https://circleci.com/gh/linuxkit/linuxkit/tree/master
             # and find the link + SHA256 in the `Artifacts` tab
-            curl -fsSL -o /workspace/bin/linuxkit https://github.com/linuxkit/linuxkit/releases/download/v0.4/linuxkit-linux-amd64
-            curl -fsSL -o /workspace/bin/manifest-tool https://github.com/estesp/manifest-tool/releases/download/v0.7.0/manifest-tool-linux-amd64
-            curl -fsSL -o /workspace/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.0/notary-Linux-amd64
+            curl -fsSL -o /workspace/bin/linuxkit https://github.com/linuxkit/linuxkit/releases/download/v0.7/linuxkit-linux-amd64
+            curl -fsSL -o /workspace/bin/manifest-tool https://github.com/estesp/manifest-tool/releases/download/v0.9.0/manifest-tool-linux-amd64
+            curl -fsSL -o /workspace/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
 
             echo "Downloaded:"
             sha256sum /workspace/bin/*
@@ -116,10 +116,10 @@ jobs:
 
             echo "Checking checksums"
             sha256sum -c <<EOF
-            f5ea546a4ccd64fbb71825f964171256388f1181b000f3c56747075e383c81c6  /workspace/bin/docker
-            57074fda28aefdefaec96866b178d1d0b8d3e251725c506d4e22851032733649  /workspace/bin/linuxkit
-            e4ca2ef0015a4be8597d31d9e3e70d88da33924ae72b0999e9f3b79304d4710d  /workspace/bin/manifest-tool
-            f4e421b3bb3c32c39372f7f02fbe80c67580cccd381f9722b1c702b3ab63a1c7  /workspace/bin/notary
+            7ceb584cedba158b335fa2df11556cd70c6c528c7c93ceb3bf9aa13903e824cd  /workspace/bin/docker
+            c747033343315774b6e51f618eb143d5714e398a32b59b9b6acab23b599dd970  /workspace/bin/linuxkit
+            80906341c3306e3838437eeb08fff5da2c38bd89149019aa301c7745e07ea8f9  /workspace/bin/manifest-tool
+            73353b2b4b85604c738a6800465133cb3a828dff0aa26f3c0926dd9a73e19879  /workspace/bin/notary
             EOF
       - run:
           name: Versions
@@ -146,7 +146,7 @@ jobs:
       - attach_workspace:
           at: /workspace
       - setup_remote_docker:
-          version: 17.06.1-ce
+          version: 18.06.0-ce
       - run:
           name: Docker version
           command: |
@@ -247,7 +247,7 @@ jobs:
           at: /workspace
       - checkout
       - setup_remote_docker:
-          version: 17.06.1-ce
+          version: 18.06.0-ce
       - run:
           name: Docker version
           command: |
