@@ -41,7 +41,7 @@ services:
     image: linuxkit/sshd:v0.7
     cgroupsPath: systemreserved/sshd
   - name: kubelet
-    image: linuxkit/kubelet:4c3974d5ffa7de9769e5142056d453dc562481b7-dirty
+    image: linuxkit/kubelet:cb9348e381e51447843f3c86b1b99cff9e6dbf5e
     cgroupsPath: podruntime/kubelet
   - name: getty
     image: linuxkit/getty:v0.7

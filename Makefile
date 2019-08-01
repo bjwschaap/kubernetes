@@ -47,7 +47,7 @@ update-hashes:
 clean:
 	rm -f -r \
 	  kube-*-kernel kube-*-cmdline kube-*-state kube-*-initrd.img *.iso \
-	  kube-weave.yaml
+	  kube-weave.yaml kube-calico.yaml
 
 .PHONY: refresh-image-caches
 refresh-image-caches:
